@@ -4,6 +4,8 @@ A lightweight [Pomodoro timer](https://en.wikipedia.org/wiki/Pomodoro_Technique)
 
 Runs as a long-lived daemon that streams JSON to Waybar once per second. Control it with left/right/middle clicks directly on the bar, or from any terminal/keybinding.
 
+This widget has been tested on [Omarchy](https://omarchy.org/)
+
 ## Timer cycle
 
 ```
