@@ -1,0 +1,23 @@
+/* waybar-pomodoro-begin */
+#custom-pomodoro {
+  min-width: 75px;
+  margin: 0 7.5px;
+}
+
+#custom-pomodoro.work.running {
+  color: #f38ba8;
+}
+
+#custom-pomodoro.short-break.running,
+#custom-pomodoro.long-break.running {
+  color: #a6e3a1;
+}
+
+#custom-pomodoro.paused {
+  opacity: 0.6;
+}
+
+#custom-pomodoro.idle {
+  opacity: 0.4;
+}
+/* waybar-pomodoro-end */

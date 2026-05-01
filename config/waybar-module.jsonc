@@ -1,0 +1,10 @@
+  // waybar-pomodoro-begin
+  "custom/pomodoro": {
+    "exec": "waybar-pomodoro",
+    "return-type": "json",
+    "restart-interval": 5,
+    "on-click": "waybar-pomodoro toggle",
+    "on-click-right": "waybar-pomodoro skip",
+    "on-click-middle": "waybar-pomodoro reset"
+  },
+  // waybar-pomodoro-end

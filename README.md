@@ -16,23 +16,42 @@ After every 4 completed work sessions the next break is a long one (15 min). Whe
 
 - Rust / Cargo (`rustup.rs`)
 - Waybar
+- Python 3 (for the install/uninstall scripts — available by default on most distros)
 - `notify-send` (provided by `libnotify` / `mako` / any notification daemon)
 
-## Build & install
+## Install
 
 ```bash
 git clone https://github.com/youruser/waybar-pomodoro
 cd waybar-pomodoro
-
-cargo build --release
-cp target/release/waybar-pomodoro ~/.local/bin/
+make install
 ```
+
+`make install` will:
+1. Compile the release binary
+2. Copy it to `~/.local/bin/`
+3. Inject the module definition into `~/.config/waybar/config.jsonc`
+4. Inject the CSS into `~/.config/waybar/style.css`
+5. Restart Waybar
 
 Make sure `~/.local/bin` is in your `$PATH`. If it is not, add this to `~/.bashrc` / `~/.zshrc`:
 
 ```bash
 export PATH="$HOME/.local/bin:$PATH"
 ```
+
+## Uninstall
+
+```bash
+make uninstall
+```
+
+`make uninstall` will:
+1. Remove the binary from `~/.local/bin/`
+2. Delete the state file at `~/.local/share/waybar-pomodoro/`
+3. Remove the module definition from `~/.config/waybar/config.jsonc`
+4. Remove the CSS from `~/.config/waybar/style.css`
+5. Restart Waybar
 
 ## Usage
 
@@ -44,65 +63,6 @@ The binary is controlled entirely through subcommands. The daemon mode (no subco
 | `waybar-pomodoro toggle` | Start if idle, pause if running, resume if paused |
 | `waybar-pomodoro skip` | Skip to the next phase immediately |
 | `waybar-pomodoro reset` | Reset everything back to the initial idle state |
-
-## Adding to Waybar
-
-### 1. Add the module definition to `~/.config/waybar/config.jsonc`
-
-```jsonc
-"custom/pomodoro": {
-  "exec": "waybar-pomodoro",
-  "return-type": "json",
-  "restart-interval": 5,
-  "on-click": "waybar-pomodoro toggle",
-  "on-click-right": "waybar-pomodoro skip",
-  "on-click-middle": "waybar-pomodoro reset"
-},
-```
-
-### 2. Place it in a module list
-
-```jsonc
-"modules-center": ["clock", "custom/pomodoro"],
-```
-
-Substitute whichever position you prefer (`modules-left`, `modules-center`, or `modules-right`).
-
-### 3. Add styles to `~/.config/waybar/style.css`
-
-```css
-#custom-pomodoro {
-  min-width: 75px;
-  margin: 0 7.5px;
-}
-
-/* Work session – red */
-#custom-pomodoro.work.running {
-  color: #f38ba8;
-}
-
-/* Break – green */
-#custom-pomodoro.short-break.running,
-#custom-pomodoro.long-break.running {
-  color: #a6e3a1;
-}
-
-#custom-pomodoro.paused {
-  opacity: 0.6;
-}
-
-#custom-pomodoro.idle {
-  opacity: 0.4;
-}
-```
-
-### 4. Restart Waybar
-
-```bash
-omarchy-restart-waybar   # Omarchy systems
-# or
-killall waybar && waybar &
-```
 
 ## Waybar click bindings
 
@@ -123,10 +83,12 @@ The widget emits two classes simultaneously, allowing fine-grained CSS targeting
 Example selectors:
 
 ```css
-#custom-pomodoro.work.running   { /* 25-minute focus block */ }
-#custom-pomodoro.work.paused    { /* paused mid-session   */ }
-#custom-pomodoro.long-break.running { /* well-earned rest */ }
+#custom-pomodoro.work.running       { /* 25-minute focus block */ }
+#custom-pomodoro.work.paused        { /* paused mid-session   */ }
+#custom-pomodoro.long-break.running { /* well-earned rest     */ }
 ```
+
+The default colours and styles live in `config/waybar-style.css` and can be edited before running `make install`.
 
 ## State file
 
@@ -134,7 +96,7 @@ Timer state is persisted to `~/.local/share/waybar-pomodoro/state.json` so it su
 
 ## Customising durations
 
-Edit the constants at the top of `src/main.rs` and rebuild:
+Edit the constants at the top of `src/main.rs` and re-run `make install`:
 
 ```rust
 const WORK_SECS: u64 = 25 * 60;
@@ -143,7 +105,35 @@ const LONG_BREAK_SECS: u64 = 15 * 60;
 const SESSIONS_BEFORE_LONG_BREAK: u32 = 4;
 ```
 
+## Manual Waybar setup
+
+If you prefer to patch your Waybar config by hand instead of using `make install`, add the following.
+
+**`~/.config/waybar/config.jsonc`** — module definition:
+
+```jsonc
+"custom/pomodoro": {
+  "exec": "waybar-pomodoro",
+  "return-type": "json",
+  "restart-interval": 5,
+  "on-click": "waybar-pomodoro toggle",
+  "on-click-right": "waybar-pomodoro skip",
+  "on-click-middle": "waybar-pomodoro reset"
+},
+```
+
+Add `"custom/pomodoro"` to whichever module list you prefer:
+
+```jsonc
+"modules-center": ["clock", "custom/pomodoro"],
+```
+
+**`~/.config/waybar/style.css`** — styles (see `config/waybar-style.css` for the full block).
+
+Then restart Waybar:
+
 ```bash
-cargo build --release
-cp target/release/waybar-pomodoro ~/.local/bin/
+omarchy-restart-waybar   # Omarchy systems
+# or
+killall waybar && waybar &
 ```
