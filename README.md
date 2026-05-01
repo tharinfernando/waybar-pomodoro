@@ -22,7 +22,7 @@ After every 4 completed work sessions the next break is a long one (15 min). Whe
 ## Install
 
 ```bash
-git clone https://github.com/youruser/waybar-pomodoro
+git clone https://github.com/tharinfernando/waybar-pomodoro
 cd waybar-pomodoro
 make install
 ```
