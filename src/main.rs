@@ -7,8 +7,8 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use serde::{Deserialize, Serialize};
 
-const WORK_SECS: u64 = 25 * 60;
-const SHORT_BREAK_SECS: u64 = 5 * 60;
+const WORK_SECS: u64 = 50 * 60;
+const SHORT_BREAK_SECS: u64 = 10 * 60;
 const LONG_BREAK_SECS: u64 = 15 * 60;
 const SESSIONS_BEFORE_LONG_BREAK: u32 = 4;
 
