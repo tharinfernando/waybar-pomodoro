@@ -6,6 +6,12 @@ Runs as a long-lived daemon that streams JSON to Waybar once per second. Control
 
 This widget has been tested on [Omarchy](https://omarchy.org/)
 
+<img width="255" height="25" alt="image" src="https://github.com/user-attachments/assets/24b8b07c-d33c-4291-9f33-9f2fc7d8940c" />
+<img width="255" height="160" alt="image" src="https://github.com/user-attachments/assets/83998f13-fd7f-40af-bf1e-4c939ea0bad0" />
+<img width="187" height="31" alt="image" src="https://github.com/user-attachments/assets/a0a57624-6fc8-47cd-b5d8-b364f82ca044" />
+<img width="184" height="28" alt="image" src="https://github.com/user-attachments/assets/11a3009c-dbd8-4328-8c48-213750deaba5" />
+
+
 ## Timer cycle
 
 ```
